@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.hhly.frankcityselector.bean.CityBean;
+import com.hhly.frankcityselector.bean.PinYinHelperImpl;
 import com.hhly.frankcityselector.bean.RegionInfo;
 import com.hhly.frankcityselector.db.RegionDAO;
 import com.hhly.frankcityselector.widget.SlideBar;
@@ -18,42 +18,51 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<CityBean> mCityBeanList = new ArrayList<>();
+    private List<RegionInfo> mCityBeanList = new ArrayList<>();
     private TextView mTextView;
     private SlideBar mSlideBar;
 
-    CityBean mCityBean;
+    RegionInfo mCityBean;
 
     private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<RegionInfo> citys = RegionDAO.getProvencesOrCity(2);
+        final List<RegionInfo> citys = RegionDAO.getProvencesOrCity(2);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycle);
         mTextView = (TextView) findViewById(R.id.center_tv);
         mSlideBar = (SlideBar) findViewById(R.id.slidebar);
         mSlideBar.setTextView(mTextView);
-        for (int i = 0; i < 50; i++) {
-            mCityBean = new CityBean("hello");
-            mCityBean.setIndexTag("H");
-            mCityBeanList.add(mCityBean);
-        }
 
-        for (int i = 0; i < 50; i++) {
-            mCityBean = new CityBean("world");
-            mCityBean.setIndexTag("W");
-            mCityBeanList.add(mCityBean);
-        }
+        PinYinHelperImpl pinYinHelper = new PinYinHelperImpl();
+        pinYinHelper.sortData(citys);
 
-        MainAdapter mainAdapter = new MainAdapter(mCityBeanList);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new TitleDecoration(this, mCityBeanList));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        MainAdapter mainAdapter = new MainAdapter(citys);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.addItemDecoration(new TitleDecoration(this, citys));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration
+                .VERTICAL));
         mRecyclerView.setAdapter(mainAdapter);
 
+        mSlideBar.setOnTouchingLetterChangedListener(new SlideBar.OnTouchingLetterChangedListener() {
+            @Override
+            public void onTouchingLetterChanged(String s) {
+
+                char c = s.toUpperCase().charAt(0);
+
+                for (int i = 0; i < citys.size(); i++) {
+                    if (citys.get(i).getSuspensionTag().toUpperCase().charAt(0) == c) {
+                        mLinearLayoutManager.scrollToPositionWithOffset(i,0);
+                        return;
+                    }
+                }
+            }
+        });
     }
 }

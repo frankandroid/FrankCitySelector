@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hhly.frankcityselector.bean.CityBean;
+import com.hhly.frankcityselector.bean.RegionInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,10 @@ import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private List<CityBean> mCityBeanList = new ArrayList<>();
+    private List<RegionInfo> mCityBeanList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
 
-    public MainAdapter(List<CityBean> cityBeanList) {
+    public MainAdapter(List<RegionInfo> cityBeanList) {
         mCityBeanList = cityBeanList;
     }
 
@@ -37,7 +37,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mCityBeanList.get(position).getCity());
+        holder.mTextView.setText(mCityBeanList.get(position).getName());
     }
 
     @Override

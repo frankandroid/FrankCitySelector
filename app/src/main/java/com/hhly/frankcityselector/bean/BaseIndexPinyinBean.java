@@ -8,7 +8,7 @@ package com.hhly.frankcityselector.bean;
 
 public abstract class BaseIndexPinyinBean extends BaseIndexBean {
 
-    private String pinyin;
+    public String pinyin;
 
 
     public String getPinyin() {

@@ -12,7 +12,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.hhly.frankcityselector.R;
-import com.hhly.frankcityselector.bean.CityBean;
+import com.hhly.frankcityselector.bean.RegionInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class TitleDecoration extends RecyclerView.ItemDecoration {
 
-    private List<CityBean> mDatas = new ArrayList<>();
+    private List<RegionInfo> mDatas = new ArrayList<>();
     private int mTitleHeight;
     private int mTextFontSize;
     private Paint mPaint;
@@ -35,7 +35,7 @@ public class TitleDecoration extends RecyclerView.ItemDecoration {
     private Context mContext;
     private static final String TAG = "TitleDecoration";
 
-    public TitleDecoration(Context context, List<CityBean> datas) {
+    public TitleDecoration(Context context, List<RegionInfo> datas) {
         mDatas = datas;
         mContext = context;
         mPaint = new Paint();
@@ -61,7 +61,7 @@ public class TitleDecoration extends RecyclerView.ItemDecoration {
         } else {
             if (null != mDatas.get(position).getSuspensionTag() && !mDatas.get(position)
                     .getSuspensionTag().equals
-                    (mDatas.get(position - 1).getSuspensionTag())) {
+                            (mDatas.get(position - 1).getSuspensionTag())) {
                 outRect.set(0, mTitleHeight, 0, 0);
             }
         }
@@ -104,11 +104,11 @@ public class TitleDecoration extends RecyclerView.ItemDecoration {
     private void drawTitleText(Canvas c, int left, int right, View childView, int position,
                                RecyclerView.LayoutParams params) {
 
-        mPaint.setColor(mContext.getResources().getColor(R.color.gray,mContext.getTheme()));
+        mPaint.setColor(mContext.getResources().getColor(R.color.gray, mContext.getTheme()));
         c.drawRect(left, childView.getTop() - params.topMargin - mTitleHeight, right, childView
                 .getTop() - params.topMargin, mPaint);
 
-        mPaint.setColor(mContext.getResources().getColor(R.color.black,mContext.getTheme()));
+        mPaint.setColor(mContext.getResources().getColor(R.color.black, mContext.getTheme()));
 
         String tag = mDatas.get(position).getSuspensionTag();
         mPaint.getTextBounds(tag, 0, tag.length(), mRect);
@@ -140,17 +140,18 @@ public class TitleDecoration extends RecyclerView.ItemDecoration {
             }
         }
 
-        mPaint.setColor(mContext.getResources().getColor(R.color.gray,mContext.getTheme()));
+        mPaint.setColor(mContext.getResources().getColor(R.color.gray, mContext.getTheme()));
         c.drawRect(parent.getPaddingLeft(), parent.getPaddingTop(), parent.getRight() - parent
                 .getPaddingRight(), parent.getPaddingTop() + mTitleHeight, mPaint);
-        mPaint.setColor(mContext.getResources().getColor(R.color.black,mContext.getTheme()));
+        mPaint.setColor(mContext.getResources().getColor(R.color.black, mContext.getTheme()));
         mPaint.getTextBounds(tag, 0, tag.length(), mRect);
-        c.drawText(tag, childView.getPaddingLeft(),
-                parent.getPaddingTop() + mTitleHeight - (mTitleHeight / 2 - mRect.height() / 2),
+        c.drawText(tag, childView.getPaddingLeft(), parent.getPaddingTop() + mTitleHeight -
+                (mTitleHeight / 2 - mRect.height() / 2),
                 mPaint);
 
         if (mFlag) {
             c.restore();
         }
+
     }
 }

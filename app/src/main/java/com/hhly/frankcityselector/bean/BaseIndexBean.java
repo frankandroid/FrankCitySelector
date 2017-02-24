@@ -10,7 +10,7 @@ import com.hhly.frankcityselector.interfacepac.ISuspensionInterface;
 
 public class BaseIndexBean implements ISuspensionInterface {
 
-    private String tag;
+    public String tag;
 
     @Override
     public boolean isShowSuspension() {

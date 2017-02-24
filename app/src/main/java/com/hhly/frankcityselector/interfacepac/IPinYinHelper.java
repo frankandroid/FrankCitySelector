@@ -20,7 +20,6 @@ public interface IPinYinHelper {
     IPinYinHelper fillIndexTags(List<? extends BaseIndexPinyinBean> baseIndexPinyinBeanList);
 
     //对数据进行排序
-
     IPinYinHelper sortData(List<? extends BaseIndexPinyinBean> baseIndexPinyinBeen);
 
 
